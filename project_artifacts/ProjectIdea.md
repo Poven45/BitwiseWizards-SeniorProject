@@ -3,8 +3,6 @@ Project System and Network Architecture: [Miro Link](https://miro.com/welcomeonb
 
 ### TrustTrade
 
-TrustTrade would be a social platform that revolutionizes how traders interact by requiring portfolio verification through Plaid integration (optional but highlighted). Users who connect their brokerage accounts get a "Verified Portfolio" badge, displaying their real-time portfolio value, current stock positions, option contracts, and quantity of holdings. This verification system creates a hierarchy of trust, where verified users' posts and analyses carry more weight than unverified accounts. The platform would feature a "Performance Score" that tracks verified users' trading history, win rates, and risk-adjusted returns, making it impossible to fake success. Users can create detailed trade journals with entry/exit points, reasoning, and outcome analysis, all backed by verified transaction data.
-
 Vision Statement:
 
 TrustTrade, To build an open and transparent trading community where everyone can learn, grow, and succeed together. By combining verified performance with accessible knowledge sharing, we're creating a space where both novice and experienced traders can collaborate, validate their strategies, and help each other achieve financial success. Our platform breaks down traditional barriers in trading, making proven strategies and real-time insights available to all. Yes there is a competitor that is only an app currently called “AfterHour”, we will have a news section and performance scores for both users and stocks potentially that’ll set us apart. Ours will also only be web based. Also guest accounts available with limited access(no live feed or access to our api queries, only viewing). 
