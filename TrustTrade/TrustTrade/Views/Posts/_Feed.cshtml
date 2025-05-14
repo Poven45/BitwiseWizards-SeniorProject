@@ -48,7 +48,7 @@
                     <span class="ms-2 clickable-post" data-url="@Url.Action("Details", "Posts", new { id = post.Id })">@post.TimeAgo</span>
                 </div>
                 <h3 class="clickable-post" style="overflow-wrap: break-word; word-break: break-word; overflow: hidden;" data-url="@Url.Action("Details", "Posts", new { id = post.Id })">@post.Title</h3>
-                <p class="clickable-post" data-url="@Url.Action("Details", "Posts", new { id = post.Id })">@post.Excerpt</p>
+                <p class="clickable-post" style="overflow-wrap: break-word; word-break: break-word; overflow: hidden;" data-url="@Url.Action("Details", "Posts", new { id = post.Id })">@post.Excerpt</p>
                 <!-- Like and Comment Buttons -->
                 <div class="d-flex mt-3">
                     <button class="btn btn-sm btn-outline-primary like-btn @(post.IsLikedByCurrentUser ? "liked" : "")" 
