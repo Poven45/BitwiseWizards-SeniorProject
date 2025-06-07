@@ -18,12 +18,22 @@ using System.ComponentModel;
 var builder = WebApplication.CreateBuilder(args);
 
 // Database Contexts
-builder.Services.AddDbContext<TrustTradeDbContext>(options => options
+// Old azure database
+/*builder.Services.AddDbContext<TrustTradeDbContext>(options => options
     .UseLazyLoadingProxies()
     .UseSqlServer(builder.Configuration.GetConnectionString("TrustTradeConnection"), sqlOptions =>
     {
         sqlOptions.EnableRetryOnFailure();
         sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+    }));*/
+
+// New postgres database
+builder.Services.AddDbContext<TrustTradeDbContext>(options => options
+    .UseLazyLoadingProxies()
+    .UseNpgsql(builder.Configuration.GetConnectionString("TrustTradePG"), npgsqlOptions =>
+    {
+        npgsqlOptions.EnableRetryOnFailure();
+        npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
     }));
 
 // Repositories
@@ -49,10 +59,17 @@ builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<ISiteSettingsRepository, SiteSettingsRepository>();
 
-var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") 
+// Old azure database
+/*var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnection") 
     ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
 builder.Services.AddDbContext<AuthenticationDbContext>(options =>
-    options.UseSqlServer(identityConnectionString));
+    options.UseSqlServer(identityConnectionString));*/
+
+// New postgres database
+var identityConnectionString = builder.Configuration.GetConnectionString("IdentityConnectionPG") 
+                               ?? throw new InvalidOperationException("Connection string 'IdentityConnection' not found.");
+builder.Services.AddDbContext<AuthenticationDbContext>(options =>
+    options.UseNpgsql(identityConnectionString));
 
 // Development Tools
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
