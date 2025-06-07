@@ -4,7 +4,7 @@ WORKDIR /app
 # Copy solution and project files
 COPY TrustTrade/TrustTrade/TrustTrade.sln ./TrustTrade/TrustTrade/
 COPY TrustTrade/TrustTrade/TrustTrade.csproj ./TrustTrade/TrustTrade/
-COPY TrustTrade/TestTrustTrade/TestTrustTrade.csproj ./TrustTrade/TestTrustTrade/
+# COPY TrustTrade/TestTrustTrade/TestTrustTrade.csproj ./TrustTrade/TestTrustTrade/
 
 # Restore dependencies
 WORKDIR /app/TrustTrade/TrustTrade
