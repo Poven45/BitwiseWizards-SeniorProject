@@ -1,28 +1,30 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy solution and project files
-COPY TrustTrade/TrustTrade/TrustTrade.sln ./TrustTrade/TrustTrade/
+# Copy just the main project file (not the solution)
 COPY TrustTrade/TrustTrade/TrustTrade.csproj ./TrustTrade/TrustTrade/
-# COPY TrustTrade/TestTrustTrade/TestTrustTrade.csproj ./TrustTrade/TestTrustTrade/
 
-# Restore dependencies
+# Restore dependencies for main project only
 WORKDIR /app/TrustTrade/TrustTrade
-RUN dotnet restore
+RUN dotnet restore TrustTrade.csproj
 
 # Copy everything else and build
 WORKDIR /app
 COPY . .
 WORKDIR /app/TrustTrade/TrustTrade
-RUN dotnet publish -c Release -o /app/out
+
+# Build the main project directly (skip solution file)
+RUN dotnet publish TrustTrade.csproj -c Release -o /app/out
 
 # Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
 
-# Expose port
+# Expose port and configure for Railway
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
+ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 
 ENTRYPOINT ["dotnet", "TrustTrade.dll"]
