@@ -22,7 +22,7 @@ We are a committed group of students working combine our skills to address press
 ### Project Overview
 TrustTrade is a sophisticated social trading platform that bridges the gap between social media and financial technology. The platform enables traders and investors to share verified investment strategies, connect their actual brokerage accounts for transparency, and build a trusted community around authentic financial discussions. This capstone project demonstrates advanced full-stack development skills, complex system architecture, and integration with multiple third-party financial APIs.
 
-**Live Demo:** https://trusttrademedia.azurewebsites.net/   
+**Live Demo:** https://trusttrademedia.azurewebsites.net/ or here which is our most recent migration to railway and postgres: https://trusttrade.up.railway.app/
 **Technology Stack:** ASP.NET Core MVC, C#, Entity Framework, SQL Server, SignalR, JavaScript, Bootstrap, Azure
 
 ---
