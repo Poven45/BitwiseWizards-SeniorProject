@@ -101,7 +101,7 @@ public class HoldingsRepository : Repository<InvestmentPosition>, IHoldingsRepos
                     Quantity = holding.Quantity,
                     CostBasis = holding.CostBasis ?? 0,
                     CurrentPrice = holding.InstitutionPrice,
-                    LastUpdated = DateTime.Now,
+                    LastUpdated = DateTime.UtcNow,
                     TypeOfSecurity = security.Type,
                     // Apply previous visibility setting if it exists
                     IsHidden = visibilitySettings.ContainsKey(holding.SecurityId) 

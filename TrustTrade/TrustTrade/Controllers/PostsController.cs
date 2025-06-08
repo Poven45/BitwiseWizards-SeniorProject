@@ -169,7 +169,7 @@ namespace TrustTrade.Controllers
                     {
                         Image = imageBytes,
                         Post = post,
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.UtcNow
                     };
 
                     await _photoRepository.AddOrUpdateAsync(photo);

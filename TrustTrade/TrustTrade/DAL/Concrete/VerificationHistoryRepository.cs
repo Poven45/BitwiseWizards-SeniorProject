@@ -58,7 +58,7 @@ namespace TrustTrade.DAL.Concrete
             {
                 UserId = userId,
                 IsVerified = isVerified,
-                Timestamp = DateTime.Now,
+                Timestamp = DateTime.UtcNow,
                 Reason = reason,
                 Source = source
             };
@@ -109,8 +109,7 @@ namespace TrustTrade.DAL.Concrete
             // If user is currently verified, add time until now
             if (verifiedStart != null)
             {
-                var now = DateTime.Now;
-
+                var now = DateTime.UtcNow;
                 // Ensure we have a positive duration by comparing timestamps correctly
                 // This fixes the issue where timestamps might have different Kind properties
                 if (now > verifiedStart.Value)

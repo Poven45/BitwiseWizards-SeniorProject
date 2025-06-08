@@ -272,7 +272,7 @@ public class PlaidController : ControllerBase
                             ItemId = exchangeResponse.ItemId,
                             InstitutionId = itemResponse.Item.InstitutionId,
                             InstitutionName = institutionName,
-                            LastSyncTimestamp = DateTime.Now
+                            LastSyncTimestamp = DateTime.UtcNow
                         };
 
                         _dbContext.PlaidConnections.Add(plaidConnection);
@@ -280,7 +280,7 @@ public class PlaidController : ControllerBase
                         // Update user Plaid status
                         trustTradeUser.PlaidEnabled = true;
                         trustTradeUser.PlaidStatus = "Connected";
-                        trustTradeUser.LastPlaidSync = DateTime.Now;
+                        trustTradeUser.LastPlaidSync = DateTime.UtcNow;
 
                         // Handle verification status
                         bool wasVerified = trustTradeUser.IsVerified ?? false;

@@ -22,7 +22,7 @@ namespace TrustTrade.Models
         /// <summary>
         /// The timestamp when this verification status change occurred
         /// </summary>
-        public DateTime Timestamp { get; set; } = DateTime.Now;
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
         /// <summary>
         /// Optional reason for the verification status change

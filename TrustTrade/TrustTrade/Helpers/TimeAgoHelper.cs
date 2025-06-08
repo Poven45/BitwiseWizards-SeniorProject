@@ -4,7 +4,7 @@ public static class TimeAgoHelper
 {
     public static string GetTimeAgo(DateTime pastDate, DateTime? currentDate = null)
     {
-        DateTime now = currentDate ?? DateTime.UtcNow.ToLocalTime(); // If currentDate is not provided, use DateTime.Now
+        DateTime now = currentDate ?? DateTime.UtcNow.ToLocalTime(); // If currentDate is not provided, use Datetime.UtcNow
 
         TimeSpan timeSince = now - pastDate;
 

@@ -62,19 +62,18 @@ public partial class TrustTradeDbContext : DbContext
 
     public virtual DbSet<Report> Reports { get; set; }
 
-    // Complete PostgreSQL-compatible TrustTradeDbContext
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<StockHistory>().ToTable("StockHistory");
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Comments__3214EC27F40245E7");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.PostId).HasColumnName("PostID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.PortfolioValueAtPosting)
@@ -95,11 +94,12 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<Follower>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Follower__3214EC27F91512A2");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.FollowerUserId).HasColumnName("FollowerUserID");
             entity.Property(e => e.FollowingUserId).HasColumnName("FollowingUserID");
 
@@ -115,13 +115,14 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<InvestmentPosition>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Investme__3214EC27E2A465AA");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CostBasis).HasColumnType("numeric(18, 2)");
             entity.Property(e => e.CurrentPrice).HasColumnType("numeric(18, 2)");
             entity.Property(e => e.LastUpdated)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.PlaidConnectionId).HasColumnName("PlaidConnectionID");
             entity.Property(e => e.Quantity).HasColumnType("numeric(18, 8)");
             entity.Property(e => e.SecurityId)
@@ -137,11 +138,12 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<Like>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Likes__3214EC2754DB71E6");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.PostId).HasColumnName("PostID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
@@ -159,13 +161,14 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<CommentLike>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__CommentL__3214EC27F1A0E5D8");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CommentId).HasColumnName("CommentID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             entity.HasOne(e => e.Comment)
                 .WithMany(e => e.CommentLikes)
@@ -182,8 +185,10 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<PlaidConnection>(entity =>
         {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => e.ItemId).IsUnique();
+            entity.HasKey(e => e.Id).HasName("PK__PlaidCon__3214EC270FDE352D");
+
+            entity.HasIndex(e => e.ItemId, "UQ__PlaidCon__727E83EAA3D35DB3").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.InstitutionId)
                 .HasMaxLength(50)
@@ -194,7 +199,7 @@ public partial class TrustTradeDbContext : DbContext
                 .HasColumnName("ItemID");
             entity.Property(e => e.LastSyncTimestamp)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.PlaidConnections)
@@ -204,11 +209,12 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Posts__3214EC27B8094D9F");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.IsPublic).HasDefaultValue(false);
             entity.Property(e => e.Title).HasMaxLength(128);
             entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -234,7 +240,7 @@ public partial class TrustTradeDbContext : DbContext
                         .OnDelete(DeleteBehavior.Cascade),
                     j =>
                     {
-                        j.HasKey("PostID", "TagID");
+                        j.HasKey("PostID", "TagID").HasName("PK__PostTags__7C45AF9C52906CEA");
                         j.ToTable("PostTags");
                         j.Property<int>("PostID").HasColumnName("PostID");
                         j.Property<int>("TagID").HasColumnName("TagID");
@@ -243,11 +249,12 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<Photo>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Photos__3214EC27A2F1B0E1");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.Image).HasColumnType("bytea");
             entity.Property(e => e.PostId).HasColumnName("PostID");
 
@@ -259,11 +266,15 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<SavedPost>(entity =>
         {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => new { e.UserId, e.PostId }).IsUnique();
+            entity.HasKey(e => e.Id).HasName("PK_SavedPosts");
+
+            entity.HasIndex(e => new { e.UserId, e.PostId })
+                .HasDatabaseName("UQ__SavedPost__A9D10534A3A3D3A4")
+                .IsUnique();
+
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             entity.HasOne(s => s.Post)
                 .WithMany(p => p.SavedPosts)
@@ -280,49 +291,66 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<SiteSettings>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__SiteSett__3214EC27F1A0E5D8");
+
             entity.ToTable("SiteSettings");
-            entity.Property(e => e.IsPresentationModeEnabled).HasDefaultValue(false);
+
+            entity.Property(e => e.IsPresentationModeEnabled)
+                .HasDefaultValue(false);
         });
 
         modelBuilder.Entity<Stock>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Stock__3214EC275CD17266");
+
             entity.ToTable("Stock");
-            entity.HasIndex(e => e.TickerSymbol).IsUnique();
+
+            entity.HasIndex(e => e.TickerSymbol, "UQ__Stock__F144591B01402E14").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.LastUpdated)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.DailyChange).HasColumnType("numeric(13, 2)");
             entity.Property(e => e.StockPrice).HasColumnType("numeric(13, 2)");
-            entity.Property(e => e.TickerSymbol).HasMaxLength(10);
+            entity.Property(e => e.TickerSymbol)
+                .HasMaxLength(10)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Tag>(entity =>
         {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => e.TagName).IsUnique();
+            entity.HasKey(e => e.Id).HasName("PK__Tags__3214EC2786A0DFD7");
+
+            entity.HasIndex(e => e.TagName, "UQ__Tags__A2F1B0E1A3A3D3A4").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.TagName)
                 .HasColumnName("TagName")
                 .HasMaxLength(100)
-                .IsRequired();
+                .IsRequired()
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Trade>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Trade__3214EC27C999C95A");
+
             entity.ToTable("Trade");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CurrentPrice).HasColumnType("numeric(13, 2)");
             entity.Property(e => e.EntryPrice).HasColumnType("numeric(13, 2)");
             entity.Property(e => e.LastUpdated)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.Quantity).HasColumnType("numeric(10, 2)");
-            entity.Property(e => e.TickerSymbol).HasMaxLength(10);
-            entity.Property(e => e.TradeType).HasMaxLength(20);
+            entity.Property(e => e.TickerSymbol)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.TradeType)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.HasOne(d => d.TickerSymbolNavigation).WithMany(p => p.Trades)
@@ -338,15 +366,18 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id);
-            entity.HasIndex(e => e.Username).IsUnique();
-            entity.HasIndex(e => e.Email).IsUnique();
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC276FA1AE70");
+
+            entity.HasIndex(e => e.Username, "UQ__Users__536C85E43599A86E").IsUnique();
+
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534AB940664").IsUnique();
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.IdentityId).HasColumnName("IdentityId");
-            entity.Property(e => e.Bio).HasMaxLength(256);
+            entity.Property(e => e.Bio).HasMaxLength(500);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.EncryptedApikey).HasColumnName("EncryptedAPIKey");
             entity.Property(e => e.IsAdmin)
@@ -358,7 +389,7 @@ public partial class TrustTradeDbContext : DbContext
             entity.Property(e => e.IsVerified)
                 .HasDefaultValue(false)
                 .HasColumnName("Is_Verified");
-            entity.Property(e => e.LastPlaidSync).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.LastPlaidSync).HasColumnType("timestamp with time zone");
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
             entity.Property(e => e.PlaidEnabled).HasDefaultValue(false);
             entity.Property(e => e.PlaidStatus)
@@ -397,9 +428,10 @@ public partial class TrustTradeDbContext : DbContext
         modelBuilder.Entity<PortfolioVisibilitySettings>(entity =>
         {
             entity.HasKey(e => e.Id);
+
             entity.Property(e => e.LastUpdated)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             entity.HasOne(d => d.User)
                 .WithOne()
@@ -409,14 +441,17 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<VerificationHistory>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__VerificationHistory__3214EC27");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.Timestamp)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Reason).HasMaxLength(255);
-            entity.Property(e => e.Source).HasMaxLength(50);
+                .HasColumnType("timestamp with time zone");
+            entity.Property(e => e.Reason)
+                .HasMaxLength(255);
+            entity.Property(e => e.Source)
+                .HasMaxLength(50);
 
             entity.HasOne(d => d.User)
                 .WithMany()
@@ -443,14 +478,15 @@ public partial class TrustTradeDbContext : DbContext
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.Id).HasName("PK__Notifications__3214EC27");
+
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.ActorId).HasColumnName("ActorID");
             entity.Property(e => e.IsArchived).HasColumnName("IsArchived");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             entity.HasOne(d => d.User)
                 .WithMany()
@@ -468,6 +504,7 @@ public partial class TrustTradeDbContext : DbContext
         modelBuilder.Entity<NotificationSettings>(entity =>
         {
             entity.HasKey(e => e.Id);
+
             entity.HasOne(d => d.User)
                 .WithOne()
                 .HasForeignKey<NotificationSettings>(d => d.UserId)
@@ -477,12 +514,14 @@ public partial class TrustTradeDbContext : DbContext
         modelBuilder.Entity<Conversation>(entity =>
         {
             entity.HasKey(e => e.Id);
+
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
+
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             entity.HasOne(d => d.User1)
                 .WithMany()
@@ -502,9 +541,14 @@ public partial class TrustTradeDbContext : DbContext
         modelBuilder.Entity<Message>(entity =>
         {
             entity.HasKey(e => e.Id);
+
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
+            
+            entity.Property(e => e.ReadAt)
+                .HasColumnType("timestamp with time zone");
+
             entity.Property(e => e.Content).IsRequired();
 
             entity.HasOne(d => d.Conversation)
@@ -528,11 +572,13 @@ public partial class TrustTradeDbContext : DbContext
         modelBuilder.Entity<Report>(entity =>
         {
             entity.HasKey(e => e.Id);
+
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
+
             entity.Property(e => e.ReviewedAt)
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             entity.HasOne(d => d.Reporter)
                 .WithMany()

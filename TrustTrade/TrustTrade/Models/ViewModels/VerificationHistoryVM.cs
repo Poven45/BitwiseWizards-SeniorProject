@@ -37,7 +37,7 @@ namespace TrustTrade.Models.ViewModels
         /// </summary>
         private string GetTimeSince(DateTime timestamp)
         {
-            TimeSpan diff = DateTime.Now - timestamp;
+            TimeSpan diff = DateTime.UtcNow - timestamp;
 
             if (diff.TotalDays > 365)
             {

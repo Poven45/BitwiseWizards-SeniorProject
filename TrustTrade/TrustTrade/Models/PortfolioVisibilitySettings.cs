@@ -16,7 +16,7 @@ namespace TrustTrade.Models
         // Global setting to hide all positions by default
         public bool HideAllPositions { get; set; } = false;
 
-        public DateTime? LastUpdated { get; set; } = DateTime.Now;
+        public DateTime? LastUpdated { get; set; } = DateTime.UtcNow;
 
         [ForeignKey("UserId")] public virtual User User { get; set; } = null!;
     }
